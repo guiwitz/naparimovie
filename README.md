@@ -71,3 +71,5 @@ And finally you can save your movie in .mp4 format and adjust the resolution (dp
 ```python
 movie.make_movie(name = 'movie.mp4', resolution = 300, fps = 20)
 ```
+And here is the sort of result you can get:
+![movie](/images/movie.gif)
