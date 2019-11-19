@@ -1,0 +1,12 @@
+name: napari_movie
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - pip
+  - numpy
+  - matplotlib
+  - jupyter
+  - pip:
+    - napari
+    - git+https://github.com/CellProfiler/CellProfiler.git@master#egg=CellProfiler
