@@ -3,7 +3,7 @@ This module implements a Python class that allows to create movies based
 on key frames selected within interactive napari visualisations.
 """
 # Author: Guillaume Witz, Science IT Support, Bern University, 2019
-# License: MIT License
+# License: BSD3 License
 
 
 import numpy as np
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import napari
 from pyquaternion import Quaternion
 from matplotlib.animation import FuncAnimation
-
+import copy
 
 class Movie:
     
@@ -83,6 +83,7 @@ class Movie:
                 
         self.myviewer.bind_key('f', self.capture_keyframe_callback)
         self.myviewer.bind_key('r', self.replace_keyframe_callback)
+        self.myviewer.bind_key('d', self.delete_keyframe_callback)
         
         self.myviewer.bind_key('a', self.key_adv_frame)
         self.myviewer.bind_key('b', self.key_back_frame)
@@ -93,35 +94,52 @@ class Movie:
     def capture_keyframe_callback(self, viewer):
         """Record current key-frame"""
 
-        current_state = self.myviewer.window.qt_viewer.view.camera.get_state().copy()
-        self.states.append(current_state)
+        current_state = copy.deepcopy(self.myviewer.window.qt_viewer.view.camera.get_state())
+        self.states.insert(self.current_frame+1, current_state)
             
-        self.state_visible.append([x.visible for x in self.myviewer.layers])
+        self.state_visible.insert(self.current_frame+1,[x.visible for x in self.myviewer.layers])
         
         #if time-lapse, capture time frame
         if len(self.myviewer.dims.point)==4:
-            self.state_time.append(self.myviewer.dims.point[0])
+            self.state_time.insert(self.current_frame+1, self.myviewer.dims.point[0])
         
         self.current_frame += 1
         
+        
     def replace_keyframe_callback(self, viewer):
         """Replace current key-frame with new view"""
-        current_state = self.myviewer.window.qt_viewer.view.camera.get_state().copy()
+        
+        current_state = copy.deepcopy(self.myviewer.window.qt_viewer.view.camera.get_state())
         self.states[self.current_frame] = current_state
-        self.state_visible[frame] = [x.visible for x in self.myviewer.layers]
+        self.state_visible[self.current_frame] = [x.visible for x in self.myviewer.layers]
         
         #if time-lapse, capture time frame
         if len(self.myviewer.dims.point)==4:
-            self.state_time[frame] = self.myviewer.dims.point[0]
+            self.state_time[self.current_frame] = self.myviewer.dims.point[0]
+        self.create_steps()
         
             
+    def delete_keyframe_callback(self, viewer):
+        """Delete current key-frame"""
+        
+        self.states.pop(self.current_frame)
+        self.state_visible.pop(self.current_frame)
+        
+        #if time-lapse, capture time frame
+        if len(self.myviewer.dims.point)==4:
+            self.state_time.pop(self.current_frame)
+            
+        self.current_frame = (self.current_frame -1)%len(self.states)
+        self.set_to_keyframe(self.current_frame)
+        self.create_steps()
+            
     def key_adv_frame(self,viewer):
-        '''Go forwards in key-frame list'''
+        """Go forwards in key-frame list"""
         new_frame = (self.current_frame + 1)%len(self.states)
         self.set_to_keyframe(new_frame)
         
     def key_back_frame(self,viewer):
-        '''Go backwards in key-frame list'''
+        """Go backwards in key-frame list"""
         new_frame = (self.current_frame -1)%len(self.states)
         self.set_to_keyframe(new_frame)
             
@@ -149,10 +167,8 @@ class Movie:
     def key_interpolframe(self, viewer):
         """Progress through interpolated frames"""
         
-        if len(self.all_states)==0:
-            self.create_steps()
+        self.create_steps()
             
-       
         new_frame = (self.current_interpolframe +1)%len(self.all_states)
         self.update_napari_state(new_frame)
         self.current_interpolframe = new_frame
@@ -186,17 +202,17 @@ class Movie:
         
         #recover zooming steps and interpolate them
         all_scales = [x['scale_factor'] for x in state_list]
-        scales_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states),len(all_scales)), fp = all_scales)
+        scales_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states)-1,len(all_scales)), fp = all_scales)
         #yconv = np.convolve(scales_interp, np.ones(10)/10,mode = 'valid')
         #yfinal = np.array(4*[yconv[0]]+list(yconv)+5*[yconv[-1]])
         
         #recover fov steps and interpolate them
         all_fov = [x['fov'] for x in state_list]
-        fov_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states),len(all_fov)), fp = all_fov)
+        fov_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states)-1,len(all_fov)), fp = all_fov)
         
         #recover view center steps and interpolate them
         all_center = np.array([x['center'] for x in state_list])
-        center_interp = [np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states),len(all_center)), 
+        center_interp = [np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states)-1,len(all_center)), 
                                    fp = all_center[:,c]) for c in range(3)]
         center_interp = np.stack(center_interp,axis = 1)
         center_interp = [tuple(x) for x in center_interp]
@@ -205,7 +221,7 @@ class Movie:
         all_vis = []
         for i in range(len(self.state_visible[0])):
             vis_to_interp = np.array(self.state_visible)[:,i].astype(int)
-            vis_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states),len(all_scales)), 
+            vis_interp = np.interp(x=np.arange(len(all_states)),xp = np.linspace(0,len(all_states)-1,len(all_scales)), 
                           fp = vis_to_interp)
             all_vis.append(vis_interp>0)
             
@@ -222,10 +238,10 @@ class Movie:
         
         
         self.all_states = all_states
-        self.all_scales = scales_interp#yfinal
-        self.all_fov = fov_interp#yfinal
-        self.all_center = center_interp#yfinal
-        self.all_vis = all_vis#scales_interp
+        self.all_scales = scales_interp
+        self.all_fov = fov_interp
+        self.all_center = center_interp
+        self.all_vis = all_vis
         
                 
     def collect_images(self):
@@ -238,7 +254,7 @@ class Movie:
         """
         
         images = []
-        new_state = self.myviewer.window.qt_viewer.view.camera.get_state().copy()
+        new_state = copy.deepcopy(self.myviewer.window.qt_viewer.view.camera.get_state())
         self.create_steps()
         for i in range(len(self.all_states)):
             new_state['_quaternion'].x = self.all_states[i].x
@@ -281,7 +297,7 @@ class Movie:
             frame to visualize
         """
 
-        new_state = self.myviewer.window.qt_viewer.view.camera.get_state().copy()
+        new_state = copy.deepcopy(self.myviewer.window.qt_viewer.view.camera.get_state())
         
         new_state['_quaternion'].x = self.all_states[frame].x
         new_state['_quaternion'].y = self.all_states[frame].y
