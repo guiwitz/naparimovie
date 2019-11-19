@@ -3,7 +3,7 @@ from setuptools import setup
 setup(name='naparimovie',
       version='0.1',
       description='Generating movies from napari views',
-      url='https://github.com/guiwitz',
+      url='https://github.com/guiwitz/naparimovie',
       author='Guillaume Witz',
       author_email='',
       license='BSD3',
