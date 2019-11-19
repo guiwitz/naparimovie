@@ -9,4 +9,4 @@ dependencies:
   - jupyter
   - pip:
     - napari
-    - git+https://github.com/CellProfiler/CellProfiler.git@master#egg=CellProfiler
+    - git+https://github.com/guiwitz/naparimovie.git@master#egg=naparimovie
