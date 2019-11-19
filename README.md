@@ -13,7 +13,7 @@ In order to get the example notebook working you can create a conda environment 
 ```bash
 conda env create -f environment.yml
 ```
-Then activate the environment, start Jupyter and run the [naparimovie_example](naparimovie_example.ipynb) notebook:
+Then activate the environment, start Jupyter and run the [naparimovie_demo](naparimovie_demo.ipynb) notebook:
 ```
 conda activate napari_movie
 jupyter notebook
