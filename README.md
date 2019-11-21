@@ -128,4 +128,4 @@ movie.make_gif('gifmovie.gif')
 ```
 
 And here is the sort of result you can get:
-![movie](/examples/gif_script.gif)
+![](/examples/gif_script.gif =100)
