@@ -1,4 +1,7 @@
-# naparimovie
+<img src="/examples/gif_script.gif" alt="alt text" width="200">
+
+# naparimovie 
+
 
 The goal of this package is to provide the possibility to create movies based on [napari](https://github.com/napari/napari) visualisations. Two solutions are offered: either manually select key-frames or define a set of commands in a script, similarly to what is done in [3Dscript]((https://www.nature.com/articles/s41592-019-0359-1)). This package allows to create movies based on a series of key-frames selected in an napari visualisation. At the moment this package only handles 3D to 5D data (3D, multi-channel, time-lapses) but not 2D views.
 
@@ -128,4 +131,4 @@ movie.make_gif('gifmovie.gif')
 ```
 
 And here is the sort of result you can get:
-![](/examples/gif_script.gif =100)
+<img src="/examples/gif_script.gif" alt="alt text" width="800">
