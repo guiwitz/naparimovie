@@ -11,9 +11,10 @@ This is NOT an official part of napari. Hopefully such an approach can at some p
 
 This package has only been tested on OSX. On top of matplotlib and numpy, the only unusual dependencies needed are [pyquaternion](http://kieranwynn.github.io/pyquaternion/) and [ffmpeg](http://www.ffmpeg.org/) which can both be installed via pip or conda.
 
-In order to get the example notebook working you can create a conda environment installing all necessary dependencies using the [environment.yml](environment.yml) file:
+In order to get the example notebook working you can create a conda environment installing all necessary dependencies using the [environment.yml](environment.yml) file. The simplest is to download this repository, open a terminal and:
 
 ```
+cd naparimovie-master
 conda env create -f environment.yml
 ```
 Then activate the environment and start Jupyter:
