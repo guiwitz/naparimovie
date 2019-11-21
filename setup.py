@@ -9,5 +9,5 @@ setup(name='naparimovie',
       license='BSD3',
       packages=['naparimovie'],
       zip_safe=False,
-      install_requires=['pyquaternion'],
+      install_requires=['pyquaternion', 'imageio'],
       )
