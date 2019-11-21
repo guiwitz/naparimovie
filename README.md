@@ -79,7 +79,7 @@ You can add/remove key-frames and use ```w``` at any time, as frames are re-inte
 
 ### Script based key-frames
 
-If you want to be able to replicate your animation or specify it precisely you can also write a script for it. This follows the ideas of the Fiji plugin [3Dscript](https://www.nature.com/articles/s41592-019-0359-1) where commands describing modifications of the viewed volume are implemented in a natural language. Two script examples are provided [here](/examples/moviecommands.txt) [here](examples/moviecommands2.txt). Please read the 3Dscript documentation to understand how such scripts are written. At the moment you can use:
+If you want to be able to replicate your animation or specify it precisely you can also write a script for it. This follows the ideas of the Fiji plugin [3Dscript](https://www.nature.com/articles/s41592-019-0359-1) where commands describing modifications of the viewed volume are implemented in a natural language. Two script examples are provided [here](/examples/moviecommands.txt) and [here](examples/moviecommands2.txt). Please read the 3Dscript documentation to understand how such scripts are written. At the moment you can use:
 
 - At frame ...
 - From frame x to frame y ...
