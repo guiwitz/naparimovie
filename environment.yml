@@ -9,5 +9,6 @@ dependencies:
   - jupyter
   - ffmpeg
   - pip:
+    - requests
     - napari
     - git+https://github.com/guiwitz/naparimovie.git@master#egg=naparimovie
