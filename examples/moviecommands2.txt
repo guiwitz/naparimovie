@@ -1,0 +1,10 @@
+At frame 10 make layer 0 invisible
+From frame 0 to frame 20 shift time by 45
+From frame 0 to frame 20
+-rotate by 180 degrees around (1,0,0)
+-zoom by a factor of 2
+At frame 20 make layer 0 visible
+From frame 21 to frame 30
+-rotate by 180 degrees around (0,0,1)
+-zoom by a factor of 0.5
+-shift time by -45

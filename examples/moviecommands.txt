@@ -1,0 +1,8 @@
+#this is a comment
+From frame 0 to frame 20
+-zoom by a factor of 0.2
+From frame 21 to frame 30
+-translate by (0,40,0)
+From frame 31 to frame 40
+-zoom by a factor of 5
+-translate by (0,-40,0)
