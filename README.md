@@ -18,7 +18,7 @@ Then activate the environment and start Jupyter:
 conda activate napari_movie
 jupyter notebook
 ```
-Download this repository or just the [examples](examples) folder containing notebooks and start for example the [examples/naparimovie_interactive](naparimovie_interactive.ipynb) notebook:
+Download this repository or just the [examples](examples) folder containing notebooks and start for example the [naparimovie_interactive](examples/naparimovie_interactive.ipynb) notebook:
 
 If you already have a working environment, you can just install this package via pip:
 ```
@@ -75,7 +75,7 @@ If it's not smooth enough, you can modify the number of interpolated frames by a
 ```python
 movie.inter_steps = 30
 ```
-You can add/remove key-frames and use ```w``` at any time, as frames are re-interpolated at every added key-frame.
+You can add/remove key-frames and use ```w``` at any time, as frames are re-interpolated at every added key-frame. You can test all this in the [naparimovie_interactive](examples/naparimovie_interactive.ipynb) notebook.
 
 ### Script based key-frames
 
@@ -113,7 +113,7 @@ Once the script is ready and saved as a .txt file, you can call it like this on 
 ```python
 movie.create_state_dict_from_script('moviecommands.txt')
 ```
-This will generate key-frames as well as interpolated states, exactly like in the interactive version. Once this is done you can again browse through your animation using the keyboard keys define above.
+This will generate key-frames as well as interpolated states, exactly like in the interactive version. Once this is done you can again browse through your animation using the keyboard keys define above. You can test all this in the [naparimovie_script](examples/naparimovie_script.ipynb) notebook.
 
 ### Saving the movie
 
