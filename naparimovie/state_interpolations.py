@@ -159,7 +159,9 @@ def interpolate_time(states_dict):
     
     frames = [x['frame'] for x in states_dict]
     all_scales = np.array([[x['frame'], x['time']] for x in states_dict if type(x['time']) is not list])
-    time_interp = np.interp(x=frames,xp = all_scales[:,0], fp = all_scales[:,1]).astype(int)
+    time_interp = None
+    if len(all_scales)>0:
+        time_interp = np.interp(x=frames,xp = all_scales[:,0], fp = all_scales[:,1]).astype(int)
     
     return time_interp
 
