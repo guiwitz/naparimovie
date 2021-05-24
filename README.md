@@ -1,3 +1,5 @@
+**A more up-to-date version of this software called napari-animation is now available as a napari plugin at https://github.com/napari/napari-animation. The 3Dscript functionality is not exactly available in that plugin, but programmatic anaimation is possible there too. The Compatibility of this software with more recent versions of napari is not guaranteed.**
+
 <img src="/examples/gif_script.gif" alt="alt text" width="200">
 
 # naparimovie 
